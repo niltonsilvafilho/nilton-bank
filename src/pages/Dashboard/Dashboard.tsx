@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
@@ -5,19 +6,14 @@ import { IoIosLogOut } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
 import { Fade } from "@chakra-ui/react";
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
-import { GiReceiveMoney } from "react-icons/gi";
 import CardValues from "@/components/CardValues";
+import { prismaClient } from "@/lib/prisma";
 
-const Dashboard = () => {
+const Dashboard = async () => {
   const [visible, setVisible] = React.useState(false);
+
+  const categories = await prismaClient.category.findMany({});
 
   const handleToggle = () => setVisible(!visible);
 
@@ -64,7 +60,11 @@ const Dashboard = () => {
           </div>
         </Fade>
       )}
-      <div></div>
+      <div>
+        {categories.map((category) => (
+          <CardValues key={category.id} category={category} />
+        ))}
+      </div>
     </div>
   );
 };
