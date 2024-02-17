@@ -5,17 +5,25 @@ import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { IoIosLogOut } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
 import { Fade } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from 'axios';
 
 import CardValues from "@/components/CardValues";
-import { prismaClient } from "@/lib/prisma";
 
-const Dashboard = async () => {
+
+const Dashboard = () => {
   const [visible, setVisible] = React.useState(false);
-
-  const categories = await prismaClient.category.findMany({});
+  const [categories, setCategories] = useState([]);
 
   const handleToggle = () => setVisible(!visible);
+
+  useEffect(() => {
+    
+    axios.get('http://localhost:3000/teste').then((data: any) => {
+      setCategories(data.data)
+      console.log(data, ' no fronte')
+    })
+  }, [])
 
   return (
     <div className="flex h-screen w-full flex-row bg-slate-900">
@@ -61,9 +69,14 @@ const Dashboard = async () => {
         </Fade>
       )}
       <div>
-        {categories.map((category) => (
-          <CardValues key={category.id} category={category} />
-        ))}
+        {
+          categories &&
+          categories.map((category : any) => (
+            <CardValues key={category.id} category={category} /> 
+
+          ))
+        }
+
       </div>
     </div>
   );
