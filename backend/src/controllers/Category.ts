@@ -11,3 +11,14 @@ export async function getCategories(req: Request, res: Response){
     console.log(error)
   }
 }
+
+
+
+export async function createCategory(req: Request, res: Response){
+  try{
+
+    return await prismaClient.category.create(req.body)
+  }catch(error){
+    console.log(error)
+  }
+}

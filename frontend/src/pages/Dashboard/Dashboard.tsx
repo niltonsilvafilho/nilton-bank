@@ -23,6 +23,15 @@ const Dashboard = () => {
       setCategories(data.data)
       console.log(data, ' no fronte')
     })
+
+
+    axios.post('http://localhost:3000/teste', {
+      nome: 'kevin',
+      idade: 22,
+      sexo: 'homem'
+    })
+
+
   }, [])
 
   return (
@@ -40,6 +49,7 @@ const Dashboard = () => {
                 className="cursor-pointer"
                 color="white"
                 onClick={() => setVisible(!visible)}
+               
               />
             </div>
 
